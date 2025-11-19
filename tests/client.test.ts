@@ -41,37 +41,32 @@ describe('Error handling', () => {
 
   it('should create error message from API response with JSON error field', () => {
     const message = createErrorMessage(400, JSON.stringify({ error: 'INVALID_PARAMETER' }));
-    expect(message).toContain('400');
-    expect(message).toContain('INVALID_PARAMETER');
+    expect(message).toBe('INVALID_PARAMETER');
   });
 
   it('should create error message from API response with plain text', () => {
     const message = createErrorMessage(500, 'Internal Server Error');
-    expect(message).toContain('500');
-    expect(message).toContain('Internal Server Error');
+    expect(message).toBe('Internal Server Error');
   });
 
   it('should create error message from API response with malformed JSON', () => {
     const message = createErrorMessage(500, '{broken json}');
-    expect(message).toContain('500');
-    expect(message).toContain('{broken json}');
+    expect(message).toBe('Internal Server Error');
   });
 
   it('should create error message with status code and full JSON object', () => {
     const message = createErrorMessage(400, JSON.stringify({ code: 'ERR_001', detail: 'Bad request' }));
-    expect(message).toContain('400');
-    expect(message).toContain('code');
+    expect(message).toBe('Bad Request');
   });
 
   it('should create error message with nested error object', () => {
     const message = createErrorMessage(403, JSON.stringify({ error: 'UNAUTHORIZED', details: 'Invalid token' }));
-    expect(message).toContain('403');
-    expect(message).toContain('UNAUTHORIZED');
+    expect(message).toBe('UNAUTHORIZED');
   });
 
   it('should handle empty string body', () => {
     const message = createErrorMessage(500, '');
-    expect(message).toContain('500');
+    expect(message).toBe('Internal Server Error');
   });
 
   it('should handle network error messages', () => {

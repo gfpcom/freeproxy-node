@@ -1,12 +1,17 @@
 /**
  * Helper function to create error message from API response
  */
+import { STATUS_CODES } from 'http';
+
 export function createErrorMessage(statusCode: number, body: string): string {
   try {
     const parsed = JSON.parse(body);
-    const errorField = parsed.error || JSON.stringify(parsed);
-    return `${statusCode}: ${errorField}`;
+    if (parsed.error) {
+      return parsed.error;
+    }
   } catch {
-    return `${statusCode}: ${body}`;
+    // Body is not JSON, will use status text
   }
+  
+  return STATUS_CODES[statusCode] || `HTTP Error ${statusCode}`;
 }
