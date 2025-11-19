@@ -343,13 +343,15 @@ The package publishes both ESM and CommonJS formats:
 
 ## Browser Compatibility
 
-This package is designed for Node.js only and uses Node.js built-in `https` module. For browser usage, consider using the browser-compatible [freeproxy-js](https://github.com/gfpcom/freeproxy-js) library instead.
+This package is designed for Node.js only and uses Node.js built-in `https` module. Browser-based requests to the GetFreeProxy API are not supported due to CORS restrictions - the API does not allow direct calls from web browsers.
+
+For server-side or backend use, use this package. For browser-based applications, consider implementing a proxy server or API gateway to relay requests through your own backend.
 
 ## Related Projects
 
 - [freeproxy-go](https://github.com/gfpcom/freeproxy-go) — Go implementation
 - [freeproxy-python](https://github.com/gfpcom/freeproxy-python) — Python implementation
-- [freeproxy-js](https://github.com/gfpcom/freeproxy-js) — Browser-compatible JavaScript implementation
+- [freeproxy-php](https://github.com/gfpcom/freeproxy-php) — PHP implementation
 
 ## Contributing
 
