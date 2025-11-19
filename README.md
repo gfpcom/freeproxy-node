@@ -1,7 +1,7 @@
-# freeproxy
+# getfreeproxy
 
-[![npm version](https://img.shields.io/npm/v/freeproxy.svg)](https://www.npmjs.com/package/freeproxy)
-[![npm downloads](https://img.shields.io/npm/dm/freeproxy.svg)](https://www.npmjs.com/package/freeproxy)
+[![npm version](https://img.shields.io/npm/v/getfreeproxy.svg)](https://www.npmjs.com/package/getfreeproxy)
+[![npm downloads](https://img.shields.io/npm/dm/getfreeproxy.svg)](https://www.npmjs.com/package/getfreeproxy)
 [![license](https://img.shields.io/github/license/gfpcom/freeproxy-node.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 
@@ -14,22 +14,22 @@ A lightweight, zero-dependency TypeScript client library for the [GetFreeProxy A
 - 🎯 **Type Safe** — Full TypeScript support with comprehensive types
 - 🚀 **Simple API** — Clean, intuitive interface with async/await
 - ⚡ **Lightweight** — Only 5KB gzipped
-- 🛡️ **Error Handling** — Comprehensive error wrapping with custom `FreeProxyError`
+- 🛡️ **Error Handling** — Comprehensive error wrapping
 - 🧪 **Well Tested** — Full test coverage with Jest
 - 📝 **Well Documented** — JSDoc comments and examples
 
 ## Installation
 
 ```bash
-npm install freeproxy
+npm install getfreeproxy
 ```
 
 ```bash
-yarn add freeproxy
+yarn add getfreeproxy
 ```
 
 ```bash
-pnpm add freeproxy
+pnpm add getfreeproxy
 ```
 
 ## Quick Start
@@ -37,7 +37,7 @@ pnpm add freeproxy
 ### Basic Usage
 
 ```typescript
-import { Client } from 'freeproxy';
+import { Client } from 'getfreeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 
@@ -54,18 +54,14 @@ try {
     console.log(`Uptime: ${proxy.uptime}%`);
   }
 } catch (error) {
-  if (error instanceof FreeProxyError) {
-    console.error(`API Error: ${error.message}`);
-  } else {
-    throw error;
-  }
+  console.error(`API Error: ${error instanceof Error ? error.message : error}`);
 }
 ```
 
 ### Query with Filters
 
 ```typescript
-import { Client } from 'freeproxy';
+import { Client } from 'getfreeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 
@@ -89,27 +85,21 @@ const proxies = await client.query({
 ### Error Handling
 
 ```typescript
-import { Client, FreeProxyError } from 'freeproxy';
+import { Client } from 'getfreeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 
 try {
   const proxies = await client.query();
 } catch (error) {
-  if (error instanceof FreeProxyError) {
-    console.error(`Error Code: ${error.statusCode}`);
-    console.error(`API Message: ${error.apiMessage}`);
-    console.error(`Full Message: ${error.message}`);
-  } else {
-    console.error('Unknown error:', error);
-  }
+  console.error(`Error: ${error instanceof Error ? error.message : error}`);
 }
 ```
 
 ### Custom Configuration
 
 ```typescript
-import { Client } from 'freeproxy';
+import { Client } from 'getfreeproxy';
 
 const client = new Client({
   apiKey: 'your-api-key',
@@ -236,7 +226,7 @@ class FreeProxyError extends Error {
 ## CommonJS Usage
 
 ```javascript
-const { Client } = require('freeproxy');
+const { Client } = require('getfreeproxy');
 
 const client = new Client({ apiKey: 'your-api-key' });
 
@@ -250,7 +240,7 @@ client.query().then(proxies => {
 ## ESM Usage
 
 ```javascript
-import { Client } from 'freeproxy';
+import { Client } from 'getfreeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 const proxies = await client.query();
@@ -261,7 +251,7 @@ const proxies = await client.query();
 ### Iterate Through Pages
 
 ```typescript
-import { Client, FreeProxyError } from 'freeproxy';
+import { Client, FreeProxyError } from 'getfreeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 
@@ -293,7 +283,7 @@ const proxies = await getAllProxies();
 ### Filter Proxies by Criteria
 
 ```typescript
-import { Client, Proxy } from 'freeproxy';
+import { Client, Proxy } from 'getfreeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 const proxies = await client.query();
@@ -316,7 +306,7 @@ const bestProxies = proxies.filter(
 ### Get Proxy URL with Authentication
 
 ```typescript
-import { Client, Proxy } from 'freeproxy';
+import { Client, Proxy } from 'getfreeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 const proxies = await client.query();

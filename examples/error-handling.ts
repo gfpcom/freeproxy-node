@@ -3,7 +3,7 @@
  * Demonstrates various error scenarios
  */
 
-import { Client } from '../src/index';
+import { Client } from 'getfreeproxy';
 
 async function main() {
   console.log('Example 1: Invalid API key\n');

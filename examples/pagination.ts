@@ -3,7 +3,7 @@
  * Iterate through all pages of proxies
  */
 
-import { Client } from '../src/index';
+import { Client } from 'getfreeproxy';
 
 async function main() {
   const client = new Client({

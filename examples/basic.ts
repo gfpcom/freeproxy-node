@@ -3,7 +3,7 @@
  * Get proxies and print their details
  */
 
-import { Client } from '../src/index';
+import { Client } from 'getfreeproxy';
 
 async function main() {
   const client = new Client({

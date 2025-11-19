@@ -1,5 +1,5 @@
 {
-  "name": "freeproxy",
+  "name": "getfreeproxy",
   "version": "1.0.0",
   "description": "A lightweight Node.js client for GetFreeProxy API",
   "type": "module",
