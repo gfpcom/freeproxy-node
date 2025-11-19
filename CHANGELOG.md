@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Zero-dependency HTTP client using native Node.js `https` module
 - Full TypeScript support with comprehensive type definitions
 - Async/await API with `query()`, `queryCountry()`, `queryProtocol()`, `queryPage()` methods
-- Custom `FreeProxyError` class for error handling
+- Custom error handling
 - Dual package support (ESM and CommonJS)
 - Comprehensive test suite with Jest
 - Detailed documentation and examples

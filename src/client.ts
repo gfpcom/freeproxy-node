@@ -28,7 +28,7 @@ export class Client {
    * Query proxies with optional filters
    * @param params Query parameters for filtering
    * @returns Array of proxy objects
-   * @throws FreeProxyError if the request fails
+   * @throws Error if the request fails
    */
   async query(params?: QueryParams): Promise<Proxy[]> {
     const url = this.buildUrl(params);
@@ -39,7 +39,7 @@ export class Client {
    * Query proxies filtered by country
    * @param country Country code (e.g., 'US', 'GB')
    * @returns Array of proxy objects
-   * @throws FreeProxyError if the request fails
+   * @throws Error if the request fails
    */
   async queryCountry(country: string): Promise<Proxy[]> {
     return this.query({ country });
@@ -49,7 +49,7 @@ export class Client {
    * Query proxies filtered by protocol
    * @param protocol Protocol type (e.g., 'http', 'https', 'socks5')
    * @returns Array of proxy objects
-   * @throws FreeProxyError if the request fails
+   * @throws Error if the request fails
    */
   async queryProtocol(protocol: string): Promise<Proxy[]> {
     return this.query({ protocol });
@@ -59,7 +59,7 @@ export class Client {
    * Query proxies from a specific page
    * @param page Page number (default: 1)
    * @returns Array of proxy objects
-   * @throws FreeProxyError if the request fails
+   * @throws Error if the request fails
    */
   async queryPage(page: number): Promise<Proxy[]> {
     return this.query({ page });

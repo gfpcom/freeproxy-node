@@ -92,7 +92,7 @@ const client = new Client({ apiKey: 'your-api-key' });
 try {
   const proxies = await client.query();
 } catch (error) {
-  console.error(`Error: ${error instanceof Error ? error.message : error}`);
+  console.error(error instanceof Error ? error.message : error);
 }
 ```
 
@@ -139,7 +139,7 @@ Retrieves proxies with optional filters.
 
 **Returns:** Array of proxy objects
 
-**Throws:** `FreeProxyError` on API or network errors
+**Throws:** `Error` on API or network errors
 
 **Example:**
 ```typescript
@@ -212,17 +212,6 @@ interface Proxy {
 }
 ```
 
-### FreeProxyError
-
-Custom error class for API errors.
-
-```typescript
-class FreeProxyError extends Error {
-  statusCode?: number;           // HTTP status code
-  apiMessage?: string;           // Original API error message
-}
-```
-
 ## CommonJS Usage
 
 ```javascript
@@ -251,7 +240,7 @@ const proxies = await client.query();
 ### Iterate Through Pages
 
 ```typescript
-import { Client, FreeProxyError } from 'getfreeproxy';
+import { Client } from 'getfreeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 
