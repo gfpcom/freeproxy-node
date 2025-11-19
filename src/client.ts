@@ -1,7 +1,7 @@
 import * as https from 'https';
 import { URL } from 'url';
 import { Proxy, QueryParams, ClientOptions } from './types';
-import { FreeProxyError } from './error';
+import { createErrorMessage } from './error';
 
 const DEFAULT_BASE_URL = 'https://api.getfreeproxy.com';
 const DEFAULT_API_PATH = '/v1/proxies';
@@ -114,8 +114,7 @@ export class Client {
         res.on('end', () => {
           // Handle non-2xx status codes
           if (!res.statusCode || res.statusCode < 200 || res.statusCode >= 300) {
-            const error = FreeProxyError.fromApiResponse(res.statusCode || 500, data);
-            reject(error);
+            reject(new Error(createErrorMessage(res.statusCode || 500, data)));
             return;
           }
 
@@ -124,21 +123,20 @@ export class Client {
             const proxies = JSON.parse(data) as Proxy[];
             resolve(proxies);
           } catch (parseError) {
-            const error = new FreeProxyError(
+            reject(new Error(
               `Failed to parse API response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`
-            );
-            reject(error);
+            ));
           }
         });
       });
 
       req.on('error', (error) => {
-        reject(FreeProxyError.fromRequestError(error));
+        reject(new Error(`Request Error: ${error.message}`));
       });
 
       req.on('timeout', () => {
         req.destroy();
-        reject(new FreeProxyError(`Request timeout after ${this.timeout}ms`));
+        reject(new Error(`Request timeout after ${this.timeout}ms`));
       });
 
       req.end();

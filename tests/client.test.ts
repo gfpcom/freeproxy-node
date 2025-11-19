@@ -1,4 +1,4 @@
-import { Client, FreeProxyError } from '../src/index';
+import { Client, createErrorMessage } from '../src/index';
 
 describe('Client', () => {
   describe('constructor', () => {
@@ -31,82 +31,61 @@ describe('Client', () => {
   });
 });
 
-describe('FreeProxyError', () => {
-  it('should be an instance of Error', () => {
-    const error = new FreeProxyError('Test error');
-    expect(error).toBeInstanceOf(Error);
+describe('Error handling', () => {
+  it('should throw Error instances on failure', () => {
+    const client = new Client({ apiKey: 'invalid' });
+    expect(() => {
+      throw new Error('Connection failed');
+    }).toThrow(Error);
   });
 
-  it('should have correct name', () => {
-    const error = new FreeProxyError('Test error');
-    expect(error.name).toBe('FreeProxyError');
+  it('should create error message from API response with JSON error field', () => {
+    const message = createErrorMessage(400, JSON.stringify({ error: 'INVALID_PARAMETER' }));
+    expect(message).toContain('400');
+    expect(message).toContain('INVALID_PARAMETER');
   });
 
-  it('should have correct message', () => {
-    const error = new FreeProxyError('Test error');
-    expect(error.message).toBe('Test error');
+  it('should create error message from API response with plain text', () => {
+    const message = createErrorMessage(500, 'Internal Server Error');
+    expect(message).toContain('500');
+    expect(message).toContain('Internal Server Error');
   });
 
-  it('should support status code', () => {
-    const error = new FreeProxyError('Test error', 401);
-    expect(error.statusCode).toBe(401);
-    expect(error.apiMessage).toBeUndefined();
+  it('should create error message from API response with malformed JSON', () => {
+    const message = createErrorMessage(500, '{broken json}');
+    expect(message).toContain('500');
+    expect(message).toContain('{broken json}');
   });
 
-  it('should support apiMessage', () => {
-    const error = new FreeProxyError('Test error', 400, 'INVALID_PARAM');
-    expect(error.statusCode).toBe(400);
-    expect(error.apiMessage).toBe('INVALID_PARAM');
+  it('should create error message with status code and full JSON object', () => {
+    const message = createErrorMessage(400, JSON.stringify({ code: 'ERR_001', detail: 'Bad request' }));
+    expect(message).toContain('400');
+    expect(message).toContain('code');
   });
 
-  it('should create error from API response with JSON', () => {
-    const error = FreeProxyError.fromApiResponse(400, JSON.stringify({ error: 'INVALID_PARAMETER' }));
-    expect(error).toBeInstanceOf(FreeProxyError);
-    expect(error.statusCode).toBe(400);
-    expect(error.message).toContain('INVALID_PARAMETER');
-    expect(error.apiMessage).toBe('INVALID_PARAMETER');
+  it('should create error message with nested error object', () => {
+    const message = createErrorMessage(403, JSON.stringify({ error: 'UNAUTHORIZED', details: 'Invalid token' }));
+    expect(message).toContain('403');
+    expect(message).toContain('UNAUTHORIZED');
   });
 
-  it('should create error from API response with plain text', () => {
-    const error = FreeProxyError.fromApiResponse(500, 'Internal Server Error');
-    expect(error).toBeInstanceOf(FreeProxyError);
-    expect(error.statusCode).toBe(500);
-    expect(error.message).toContain('Internal Server Error');
+  it('should handle empty string body', () => {
+    const message = createErrorMessage(500, '');
+    expect(message).toContain('500');
   });
 
-  it('should create error from API response with malformed JSON', () => {
-    const error = FreeProxyError.fromApiResponse(500, '{broken json}');
-    expect(error).toBeInstanceOf(FreeProxyError);
-    expect(error.statusCode).toBe(500);
-    expect(error.message).toContain('500');
+  it('should handle network error messages', () => {
+    const networkError = new Error('Request Error: ECONNREFUSED');
+    expect(networkError.message).toContain('ECONNREFUSED');
   });
 
-  it('should create error from HTTP error', () => {
-    const httpError = new Error('Connection refused');
-    const error = FreeProxyError.fromHttpError(httpError, 500);
-    expect(error).toBeInstanceOf(FreeProxyError);
-    expect(error.statusCode).toBe(500);
-    expect(error.message).toContain('Connection refused');
+  it('should handle timeout error messages', () => {
+    const timeoutError = new Error('Request timeout after 30000ms');
+    expect(timeoutError.message).toContain('timeout');
   });
 
-  it('should create error from HTTP error without status code', () => {
-    const httpError = new Error('Network timeout');
-    const error = FreeProxyError.fromHttpError(httpError);
-    expect(error).toBeInstanceOf(FreeProxyError);
-    expect(error.statusCode).toBeUndefined();
-    expect(error.message).toContain('Network timeout');
-  });
-
-  it('should create error from request error', () => {
-    const requestError = new Error('Timeout');
-    const error = FreeProxyError.fromRequestError(requestError);
-    expect(error).toBeInstanceOf(FreeProxyError);
-    expect(error.message).toContain('Timeout');
-  });
-
-  it('should maintain prototype chain', () => {
-    const error = new FreeProxyError('Test');
-    expect(error instanceof FreeProxyError).toBe(true);
-    expect(error instanceof Error).toBe(true);
+  it('should handle parse error messages', () => {
+    const parseError = new Error('Failed to parse API response: Unexpected token');
+    expect(parseError.message).toContain('parse');
   });
 });

@@ -3,7 +3,7 @@
  * Demonstrates various error scenarios
  */
 
-import { Client, FreeProxyError } from '../src/index';
+import { Client } from '../src/index';
 
 async function main() {
   console.log('Example 1: Invalid API key\n');
@@ -11,11 +11,7 @@ async function main() {
     const client = new Client({ apiKey: 'invalid-key' });
     await client.query();
   } catch (error) {
-    if (error instanceof FreeProxyError) {
-      console.log(`Status Code: ${error.statusCode}`);
-      console.log(`API Message: ${error.apiMessage}`);
-      console.log(`Full Error: ${error.message}\n`);
-    }
+    console.log(`Error: ${error instanceof Error ? error.message : 'Unknown error'}\n`);
   }
 
   console.log('Example 2: Request timeout\n');
@@ -26,10 +22,7 @@ async function main() {
     });
     await client.query();
   } catch (error) {
-    if (error instanceof FreeProxyError) {
-      console.log(`Error: ${error.message}`);
-      console.log(`Status Code: ${error.statusCode || 'N/A'}\n`);
-    }
+    console.log(`Error: ${error instanceof Error ? error.message : 'Unknown error'}\n`);
   }
 
   console.log('Example 3: Custom error handling\n');
@@ -40,23 +33,22 @@ async function main() {
     const proxies = await client.query();
     console.log(`Success: Got ${proxies.length} proxies`);
   } catch (error) {
-    if (error instanceof FreeProxyError) {
-      // Check for specific errors
-      if (error.statusCode === 401) {
-        console.error('Authentication failed - invalid API key');
-      } else if (error.statusCode === 429) {
-        console.error('Rate limit exceeded - too many requests');
-      } else if (error.statusCode === 500) {
-        console.error('Server error - try again later');
-      } else if (!error.statusCode) {
-        console.error('Network error - check your connection');
-      } else {
-        console.error(`API error: ${error.message}`);
-      }
-    } else if (error instanceof Error) {
-      console.error(`Unexpected error: ${error.message}`);
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    // Check for specific errors in the message
+    if (message.includes('401')) {
+      console.error('Authentication failed - invalid API key');
+    } else if (message.includes('429')) {
+      console.error('Rate limit exceeded - too many requests');
+    } else if (message.includes('500')) {
+      console.error('Server error - try again later');
+    } else if (message.includes('timeout')) {
+      console.error('Request timeout - connection took too long');
+    } else {
+      console.error(`Error: ${message}`);
     }
   }
 }
+
+main();
 
 main();

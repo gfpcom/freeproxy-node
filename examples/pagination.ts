@@ -3,7 +3,7 @@
  * Iterate through all pages of proxies
  */
 
-import { Client, FreeProxyError } from '../src/index';
+import { Client } from '../src/index';
 
 async function main() {
   const client = new Client({
@@ -36,24 +36,18 @@ async function main() {
           console.log(`  Sample: ${p.proxyUrl}`);
         }
       } catch (error) {
-        if (error instanceof FreeProxyError) {
-          console.error(`Page ${page} error: ${error.message}`);
-          emptyPages++;
-          if (emptyPages >= 3) {
-            console.log('Too many consecutive errors, stopping...');
-            break;
-          }
+        console.error(`Page ${page} error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        emptyPages++;
+        if (emptyPages >= 3) {
+          console.log('Too many consecutive errors, stopping...');
+          break;
         }
       }
     }
 
     console.log(`\nTotal proxies fetched: ${totalProxies}`);
   } catch (error) {
-    if (error instanceof FreeProxyError) {
-      console.error(`Error: ${error.message}`);
-    } else {
-      console.error('Unknown error:', error);
-    }
+    console.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     process.exit(1);
   }
 }

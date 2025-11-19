@@ -4,7 +4,7 @@
  */
 
 export { Client } from './client';
-export { FreeProxyError } from './error';
+export { createErrorMessage } from './error';
 export type { Proxy, QueryParams, ClientOptions } from './types';
 
 // Default export for convenience

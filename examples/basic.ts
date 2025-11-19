@@ -3,7 +3,7 @@
  * Get proxies and print their details
  */
 
-import { Client, FreeProxyError } from '../src/index';
+import { Client } from '../src/index';
 
 async function main() {
   const client = new Client({
@@ -33,14 +33,7 @@ async function main() {
       console.log();
     }
   } catch (error) {
-    if (error instanceof FreeProxyError) {
-      console.error(`Error: ${error.message}`);
-      if (error.statusCode) {
-        console.error(`Status Code: ${error.statusCode}`);
-      }
-    } else {
-      console.error('Unknown error:', error);
-    }
+    console.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     process.exit(1);
   }
 }

@@ -3,7 +3,7 @@
  * Query proxies with multiple filters
  */
 
-import { Client, FreeProxyError } from '../src/index';
+import { Client } from '../src/index';
 
 async function main() {
   const client = new Client({
@@ -48,11 +48,7 @@ async function main() {
         });
     }
   } catch (error) {
-    if (error instanceof FreeProxyError) {
-      console.error(`Error: ${error.message}`);
-    } else {
-      console.error('Unknown error:', error);
-    }
+    console.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     process.exit(1);
   }
 }
