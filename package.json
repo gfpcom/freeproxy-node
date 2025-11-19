@@ -1,0 +1,66 @@
+{
+  "name": "freeproxy-node",
+  "version": "1.0.0",
+  "description": "A lightweight Node.js client for GetFreeProxy API",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run build:ts",
+    "build:ts": "tsc && node scripts/post-build.cjs",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "prepublishOnly": "npm run test && npm run build"
+  },
+  "keywords": [
+    "proxy",
+    "free-proxy",
+    "getfreeproxy",
+    "http-proxy",
+    "socks5",
+    "api-client"
+  ],
+  "author": "gfpcom",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gfpcom/freeproxy-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gfpcom/freeproxy-node/issues"
+  },
+  "homepage": "https://github.com/gfpcom/freeproxy-node#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.5.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  }
+}

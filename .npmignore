@@ -1,0 +1,35 @@
+# Development files
+src/
+tests/
+examples/
+scripts/
+.github/
+
+# Configuration files
+tsconfig.json
+jest.config.cjs
+.eslintrc.cjs
+.prettierrc
+
+# Development dependencies
+node_modules/
+*.tsbuildinfo
+
+# Build artifacts (we keep dist/)
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Other
+.gitignore
