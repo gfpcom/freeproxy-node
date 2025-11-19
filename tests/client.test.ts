@@ -1,3 +1,4 @@
+// @jest-environment node
 import { Client, createErrorMessage } from '../src/index';
 
 describe('Client', () => {
@@ -82,5 +83,59 @@ describe('Error handling', () => {
   it('should handle parse error messages', () => {
     const parseError = new Error('Failed to parse API response: Unexpected token');
     expect(parseError.message).toContain('parse');
+  });
+});
+
+describe('Client internal error scenarios', () => {
+  it('should reject with error for non-2xx status code', async () => {
+    const client = new Client({ apiKey: 'test-key', baseUrl: 'http://localhost:9999' });
+    // mock request to always return 401
+    client['request'] = async () => { throw new Error('Unauthorized'); };
+    await expect(client.query()).rejects.toThrow('Unauthorized');
+  });
+
+  it('should reject with error for invalid JSON response', async () => {
+    const client = new Client({ apiKey: 'test-key', baseUrl: 'http://localhost:9999' });
+    client['request'] = async () => { throw new Error('Failed to parse API response: Unexpected token'); };
+    await expect(client.query()).rejects.toThrow('parse');
+  });
+
+  it('should reject with error for network error', async () => {
+    const client = new Client({ apiKey: 'test-key', baseUrl: 'http://localhost:9999' });
+    client['request'] = async () => { throw new Error('Request Error: ECONNREFUSED'); };
+    await expect(client.query()).rejects.toThrow('ECONNREFUSED');
+  });
+
+  it('should reject with error for timeout', async () => {
+    const client = new Client({ apiKey: 'test-key', baseUrl: 'http://localhost:9999', timeout: 1 });
+    client['request'] = async () => { throw new Error('Request timeout after 1ms'); };
+    await expect(client.query()).rejects.toThrow('timeout');
+  });
+
+  it('should call queryCountry with correct param', async () => {
+    const client = new Client({ apiKey: 'test-key' });
+    client['request'] = async (url) => {
+      expect(url).toContain('country=US');
+      return [];
+    };
+    await client.queryCountry('US');
+  });
+
+  it('should call queryProtocol with correct param', async () => {
+    const client = new Client({ apiKey: 'test-key' });
+    client['request'] = async (url) => {
+      expect(url).toContain('protocol=https');
+      return [];
+    };
+    await client.queryProtocol('https');
+  });
+
+  it('should call queryPage with correct param', async () => {
+    const client = new Client({ apiKey: 'test-key' });
+    client['request'] = async (url) => {
+      expect(url).toContain('page=2');
+      return [];
+    };
+    await client.queryPage(2);
   });
 });

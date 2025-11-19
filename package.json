@@ -62,5 +62,18 @@
     "prettier": "^3.0.0",
     "ts-jest": "^29.1.0",
     "typescript": "^5.0.0"
+  },
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "testEnvironment": "node",
+    "extensionsToTreatAsEsm": [".ts"],
+    "coverageThreshold": {
+      "global": {
+        "branches": 30,
+        "functions": 20,
+        "lines": 30,
+        "statements": 30
+      }
+    }
   }
 }
