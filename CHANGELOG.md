@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial release of freeproxy-node
+- Initial release of freeproxy
 - Zero-dependency HTTP client using native Node.js `https` module
 - Full TypeScript support with comprehensive type definitions
 - Async/await API with `query()`, `queryCountry()`, `queryProtocol()`, `queryPage()` methods

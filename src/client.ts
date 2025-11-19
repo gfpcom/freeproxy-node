@@ -99,7 +99,7 @@ export class Client {
         headers: {
           'Authorization': `Bearer ${this.apiKey}`,
           'Accept': 'application/json',
-          'User-Agent': 'freeproxy-node/1.0.0',
+          'User-Agent': 'freeproxy/1.0.0',
         },
         timeout: this.timeout,
       };

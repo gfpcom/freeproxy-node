@@ -1,7 +1,7 @@
-# freeproxy-node
+# freeproxy
 
-[![npm version](https://img.shields.io/npm/v/freeproxy-node.svg)](https://www.npmjs.com/package/freeproxy-node)
-[![npm downloads](https://img.shields.io/npm/dm/freeproxy-node.svg)](https://www.npmjs.com/package/freeproxy-node)
+[![npm version](https://img.shields.io/npm/v/freeproxy.svg)](https://www.npmjs.com/package/freeproxy)
+[![npm downloads](https://img.shields.io/npm/dm/freeproxy.svg)](https://www.npmjs.com/package/freeproxy)
 [![license](https://img.shields.io/github/license/gfpcom/freeproxy-node.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 
@@ -21,15 +21,15 @@ A lightweight, zero-dependency TypeScript client library for the [GetFreeProxy A
 ## Installation
 
 ```bash
-npm install freeproxy-node
+npm install freeproxy
 ```
 
 ```bash
-yarn add freeproxy-node
+yarn add freeproxy
 ```
 
 ```bash
-pnpm add freeproxy-node
+pnpm add freeproxy
 ```
 
 ## Quick Start
@@ -37,7 +37,7 @@ pnpm add freeproxy-node
 ### Basic Usage
 
 ```typescript
-import { Client } from 'freeproxy-node';
+import { Client } from 'freeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 
@@ -65,7 +65,7 @@ try {
 ### Query with Filters
 
 ```typescript
-import { Client } from 'freeproxy-node';
+import { Client } from 'freeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 
@@ -89,7 +89,7 @@ const proxies = await client.query({
 ### Error Handling
 
 ```typescript
-import { Client, FreeProxyError } from 'freeproxy-node';
+import { Client, FreeProxyError } from 'freeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 
@@ -109,7 +109,7 @@ try {
 ### Custom Configuration
 
 ```typescript
-import { Client } from 'freeproxy-node';
+import { Client } from 'freeproxy';
 
 const client = new Client({
   apiKey: 'your-api-key',
@@ -236,7 +236,7 @@ class FreeProxyError extends Error {
 ## CommonJS Usage
 
 ```javascript
-const { Client } = require('freeproxy-node');
+const { Client } = require('freeproxy');
 
 const client = new Client({ apiKey: 'your-api-key' });
 
@@ -250,7 +250,7 @@ client.query().then(proxies => {
 ## ESM Usage
 
 ```javascript
-import { Client } from 'freeproxy-node';
+import { Client } from 'freeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 const proxies = await client.query();
@@ -261,7 +261,7 @@ const proxies = await client.query();
 ### Iterate Through Pages
 
 ```typescript
-import { Client, FreeProxyError } from 'freeproxy-node';
+import { Client, FreeProxyError } from 'freeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 
@@ -293,7 +293,7 @@ const proxies = await getAllProxies();
 ### Filter Proxies by Criteria
 
 ```typescript
-import { Client, Proxy } from 'freeproxy-node';
+import { Client, Proxy } from 'freeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 const proxies = await client.query();
@@ -316,7 +316,7 @@ const bestProxies = proxies.filter(
 ### Get Proxy URL with Authentication
 
 ```typescript
-import { Client, Proxy } from 'freeproxy-node';
+import { Client, Proxy } from 'freeproxy';
 
 const client = new Client({ apiKey: 'your-api-key' });
 const proxies = await client.query();
