@@ -48,7 +48,7 @@
   "bugs": {
     "url": "https://github.com/gfpcom/freeproxy-node/issues"
   },
-  "homepage": "https://github.com/gfpcom/freeproxy-node#readme",
+  "homepage": "https://developer.getfreeproxy.com/",
   "engines": {
     "node": ">=16.0.0"
   },
